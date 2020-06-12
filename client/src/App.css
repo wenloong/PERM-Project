@@ -1,0 +1,198 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600&display=swap');
+
+body {
+   background-color: #304863;
+   color: #F0F0F0;
+   font-family: 'Nunito', sans-serif;
+}
+
+/*
+   Navigation Styles
+*/
+.navigation {
+   background-color: #3E587B;
+   position: fixed;
+   top: 0;
+   width: 70px;
+   height: 100vh;
+   text-align: center;
+}
+
+.logo {
+   margin-top: 20px;
+}
+
+.links {
+   margin-top: 30px;
+   text-align: center;
+}
+
+.link-item {
+   background-color: #293F59;
+   color: #F0F0F0;
+   font-size: 15px;
+   font-weight: 600;
+   border-radius: 5px;
+   width: 50px;
+   height: 50px;
+   margin: 20px auto;
+   cursor: pointer;
+}
+
+.links div a {
+   position: relative;
+   top: 30%;
+   text-decoration: none;
+   color: #F0F0F0;
+   font-weight: 600;
+   font-size: 1.1em;
+   outline: none;
+   padding: 10px;
+}
+
+.dashboard {
+   margin-top: 30px;
+   margin-left: 120px;
+}
+
+.dashboard-column {
+   display: inline-block;
+   vertical-align: top;
+   width: max-content;
+}
+
+.dashboard-column:nth-child(even) {
+   margin-left: 40px;
+   width: 65%;
+}
+
+.component-wrapper {
+   background-color: #293F59;
+   border-radius: 10px;
+   margin-top: 20px;
+   margin-bottom: 50px;
+}
+
+h3 {
+   margin: 0;
+   font-size: 34px;
+   color: #43DDE6;
+}
+
+p {
+   margin: 0;
+}
+
+.component-wrapper h4 {
+   margin: 0;
+   color: #FC5185;
+   font-size: 19px;
+   font-weight: 600;
+}
+
+
+.component-wrapper p,
+.component-wrapper h5 {
+   margin: 0;
+}
+
+.component-wrapper h5 {
+   font-size: 15px;
+   font-weight: 400;
+}
+
+.component-wrapper p {
+   font-size: 14px;
+   font-weight: lighter;
+}
+
+.component-inner {
+   padding-top: 30px;
+   padding-bottom: 30px;
+   padding-left: 40px;
+   padding-right: 40px;
+}
+
+.item-wrapper {
+   margin-top: 18px;
+   cursor: pointer;
+}
+
+.item-button,
+.item-desc {
+   display: inline-block;
+   vertical-align: middle;
+}
+
+.item-desc {
+   margin-left: 10px;
+}
+
+/*
+   Form Style
+*/
+form {
+   margin-top: 30px;
+}
+
+form label {
+   font-size: 15px;
+}
+
+form input {
+   display: block;
+   border-radius: 5px;
+   border: none;
+   padding: 5px 15px;
+   width: 80%;
+   color: #797979;
+   margin-top: 7px;
+}
+
+.form-row {
+   margin-top: 20px;
+}
+
+.form-column {
+   display: inline-block;
+   width: 50%;
+}
+
+.button-submit,
+.button-search {
+   padding: 10px 15px;
+   background-color: #FC5185;
+   color: #F0F0F0;
+   border: none;
+   border-radius: 5px;
+   cursor: pointer;
+}
+
+.button-submit {
+   position: relative;
+   top: 45px;
+   left: 90%;
+}
+
+.button-search {
+   margin-top: 20px;
+}
+
+table {
+   margin-top: 20px;
+}
+
+table thead {
+   color: #43DDE6;
+   font-size: 17px;
+}
+
+th, td {
+   padding-top: 5px;
+   text-align: left;
+}
+
+th:nth-child(n + 2),
+td:nth-child(n + 2) {
+   padding-left: 15px;
+}
