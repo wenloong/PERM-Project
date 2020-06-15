@@ -158,11 +158,6 @@ const ListTheaters = () => {
       }
    }
 
-   useEffect(() => {
-      getShow();
-   });
-
-
    return(
       <div className="component-wrapper">
          <div className="component-inner">

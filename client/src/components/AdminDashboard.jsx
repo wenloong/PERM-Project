@@ -1030,7 +1030,7 @@ const CancelBooking = () => {
       <div className="component-wrapper">
          <div className="component-inner">
             <h4>Cancel Booking</h4>
-            <p>Cancel all booking that have a status of pending.</p>
+            <p>Remove all booking that have a status of cancelled.</p>
 
             <button className="button-submit" onClick={cancelBooking}>Remove</button>
          </div>
