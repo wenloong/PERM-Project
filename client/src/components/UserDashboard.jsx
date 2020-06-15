@@ -206,21 +206,6 @@ const ListShows = () => {
    const [start_time, setStartTime] = useState([]);
    const [show_date, setShowDate] = useState([]);
 
-   const getShows = async() => {
-      try {
-         const response = await fetch("http://localhost:5000/shows");
-         const jsonData = await response.json();
-
-         setShows(jsonData);
-      } catch (error) {
-         console.log(error.message);
-      }
-   };
-
-   useEffect(() => {
-      getShows();
-   });
-
    const onSearchForm = async e => {
       e.preventDefault();
       try {
@@ -289,7 +274,7 @@ const ListMovies = () => {
 
    const getMovies = async() => {
       try {
-         const response = await fetch("http://localhost:5000/movies")
+         const response = await fetch("http://localhost:5000/movies-love")
          const jsonData = await response.json()
 
          setMovies(jsonData);
@@ -300,7 +285,7 @@ const ListMovies = () => {
 
    useEffect(() => {
       getMovies();
-   });
+   }, []);
 
    return(
       <div className="component-wrapper">
@@ -358,7 +343,8 @@ const ListPendingBooking = () => {
 
    useEffect(() => {
       getPendingBooking();
-   });
+   },[]);
+
    return(
       <div className="component-wrapper">
          <div className="component-inner">
@@ -390,32 +376,154 @@ const ListPendingBooking = () => {
 }
 
 const ListShowsMT = () => {
+   const [movies, setMovies] = useState([]);
+   const [cinemas, setCinemas] = useState([]);
+   const [start_date, setStartDate] = useState([]);
+   const [end_date, setEndDate] = useState([]);
+   const [cid, setCid] = useState([]);
+   const [mvid, setMvid] = useState([]);
+   const [show, setShow] = useState([]);
+
+   const getMovies = async() => {
+      try {
+         const response = await fetch("http://localhost:5000/movies");
+         const jsonData = await response.json();
+
+         setMovies(jsonData);
+      } catch (error) {
+         console.log(error.message);
+      }
+   }
+
+   const getCinemas = async(mvid) => {
+      try {
+         const response = await fetch(`http://localhost:5000/cinemas-mvid/${mvid}`);
+         const jsonData = await response.json();
+
+         setCinemas(jsonData);
+      } catch (error) {
+         console.log(error.message);
+      }
+   }
+
+   const onSearchForm = async e => {
+      e.preventDefault();
+      try {
+         const response = await fetch(`http://localhost:5000/list-shows-date-range/${cid}/${start_date}/${end_date}/${mvid}`);
+         const jsonData = await response.json();
+
+         setShow(jsonData);
+         console.log(jsonData);
+      } catch (err) {
+         console.error(err.message);
+      }
+   }
+
+   function selectedMovieValue(e) {
+      getCinemas(e.currentTarget.value);
+      setMvid(e.currentTarget.value);
+   }
+
+   function selectedCinemaValue(e) {
+      setCid(e.currentTarget.value);
+   }
+
+   useEffect(() => {
+      getMovies();
+   }, []);
+
    return(
       <div className="component-wrapper">
          <div className="component-inner">
             <h4>List Shows with Movie Title</h4>
             <p>List the title, duration, date, and time of shows playing a given movie at a given cinema during a date range.</p>
 
-            <form>
+            <form onSubmit={onSearchForm}>
                <div className="form-row">
                   <div className="form-column">
-                     <label>Show</label>
-                     <input placeholder="ex: John"/>
+                     <label>Movie</label>
+                     <div className="select-box">
+                        <select value={movies.mvid} onChange={selectedMovieValue}>
+                           <option key={null} value={null}>(Select a Movie)</option>
+                           {movies.map((movie) => <option key={movie.mvid} value={movie.mvid}>{movie.title}</option>)}
+                        </select>
+                     </div>
                   </div>
                                  
                   <div className="form-column">
-                     <label>Last Name</label>
-                     <input placeholder="ex: Smith"/>
+                     <label>Cinema</label>
+                     <div className="select-box">
+                        <select value={cinemas.cid} onChange={selectedCinemaValue}>
+                           <option key={null} value={null}>(Select a Cinema)</option>
+                           {cinemas.map((cinema) => <option key={cinema.cid} value={cinema.cid}>{cinema.cname}</option>)}
+                        </select>
+                     </div>
                   </div>
                </div>
-               <button className="button-search">Submit</button>
+
+               <div className="form-row">
+                  <div className="form-column">
+                     <label>Start Date</label>
+                     <input placeholder="ex: 2019-01-01" value={start_date} onChange={e => setStartDate(e.target.value)}/>
+                  </div>
+
+                  <div className="form-column">
+                     <label>End Date</label>
+                     <input placeholder="ex: 2019-02-01" value={end_date} onChange={e => setEndDate(e.target.value)}/>
+                  </div>
+               </div>
+               <button className="button-search">Search</button>
             </form>
+
+            <table>
+               <thead>
+                  <tr>
+                     <th>Movie Title</th>
+                     <th>Duration</th>
+                     <th>Show Date</th>
+                     <th>Start Time</th>
+                     <th>End Time</th>
+                  </tr>
+               </thead>
+
+               <tbody>
+                  {show.map(shows => (
+                     <tr>
+                        <td>{shows.title}</td>
+                        <td>{shows.duration}</td>
+                        <td>{shows.sdate}</td>
+                        <td>{shows.sttime}</td>
+                        <td>{shows.edtime}</td>
+                     </tr>
+                  ))}
+               </tbody>
+            </table>
          </div>
       </div>
    )
 }
 
 const ListUserBooking = () => {
+   const [booking, setBooking] = useState([]);
+   const [seatNumber, setSeatNumber] = useState([]);
+   const [email, setEmail] = useState([]);
+
+   const onSearchForm = async e => {
+      e.preventDefault();
+      try {
+         const response = await fetch(`http://localhost:5000/list-booking-info/${email}`);
+         const jsonData = await response.json();
+
+         setBooking(jsonData);
+         
+         const responseSeat = await fetch(`http://localhost:5000/list-booking-seat-info/${jsonData[0].bid}`);
+         const jsonDataSeat = await responseSeat.json();
+         
+         setSeatNumber(jsonDataSeat);
+      } catch (err) {
+         console.error(err.message);
+      }
+   }
 
    return(
       <div className="component-wrapper">
@@ -423,15 +531,47 @@ const ListUserBooking = () => {
             <h4>List User Booking</h4>
             <p>List the movie title, show date & start time, theather name, and cinema seat number for all booking of a given user.</p>
 
-            <form>
+            <form onSubmit={onSearchForm}>
                <div className="form-row">
                   <div className="form-column">
                      <label>User Email</label>
-                     <input placeholder="ex: johnsmith@gmail.com"/>
+                     <input placeholder="ex: johnsmith@gmail.com" value={email} onChange={e => setEmail(e.target.value)}/>
                   </div>
                </div>
                <button className="button-search">Search</button>
             </form>
+
+            <table>
+               <thead>
+                  <tr>
+                     <th>bid</th>
+                     <th>sdate</th>
+                     <th>sttime</th>
+                     <th>edtime</th>
+                     <th>title</th>
+                     <th>tname</th>
+                     <th>sno</th>
+                  </tr>
+               </thead>
+
+               <tbody>
+                  {booking.map(booking => (
+                     <tr>
+                        <td>{booking.bid}</td>
+                        <td>{booking.sdate}</td>
+                        <td>{booking.sttime}</td>
+                        <td>{booking.edtime}</td>
+                        <td>{booking.title}</td>
+                        <td>{booking.tname}</td>
+                     </tr>
+                  ))}
+                  {seatNumber.map(seatNumber => (
+                     <tr>
+                        <td>{seatNumber.sno}</td>
+                     </tr>
+                  ))}
+               </tbody>
+            </table>
          </div>
       </div>
    )

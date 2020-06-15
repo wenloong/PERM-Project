@@ -149,6 +149,28 @@ form input {
    margin-top: 7px;
 }
 
+.select-box select {
+   background-color: #F0F0F0;
+   color: #797979;
+   padding: 7px 10px;
+   width: 85%;
+   border: none;
+   appearance: none;
+   outline: none;
+   border-radius: 5px;
+   margin-top: 7px;
+   margin-bottom: 7px;
+}
+
+.select-box select option {
+   padding: 10px;
+}
+
+.select-box:hover::before {
+   color: #797979;
+   background-color: #F0F0F0;
+}
+
 .form-row {
    margin-top: 20px;
 }
